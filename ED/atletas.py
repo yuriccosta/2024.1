@@ -21,6 +21,11 @@ class Atleta:
             return atleta2.id
         
         return "empate"
+    def busca_id(self, id):
+        if self.id == id:
+            return True
+        
+        return False
 
 
 atletanum = int(input())
@@ -35,17 +40,11 @@ for c in range(0, atletanum):
 
 consultanum = int(input())
 
-resultado = []
 for c in range(0, consultanum):
     compara = input()
     compara = compara.split()
     for d in vatletas:
-        if d.id == int(compara[0]):
+        if d.busca_id(int(compara[0])):
             for j in vatletas:
-                if j.id == int(compara[1]):
-                    resultado.append(d.comparar_conqui(j))
-
-for k in resultado:
-    print(k)
-
-
+                if j.busca_id(int(compara[1])):
+                    print(d.comparar_conqui(j))

@@ -53,16 +53,13 @@ int main(void){
 
     scanf("%d", &consultanum);
 
-    int a1, a2, resultado[100];
+    int a1, a2, resultado;
     for (int c = 0; c < consultanum; c++){
         scanf("%d %d", &a1, &a2);
-        resultado[c] = compare_conquer(a1, a2, vatletas);
+        resultado = compare_conqui(a1, a2, vatletas);
+        (resultado == 0) ? printf("empate\n") : printf("%d\n", resultado);
     }
 
-    for (int c = 0; c < consultanum; c++){
-        (resultado[c] == 0) ? printf("empate\n") : printf("%d\n", resultado[c]);
-    }
-    
     return 0;
 }
 
