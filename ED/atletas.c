@@ -8,6 +8,7 @@ struct Atleta {
 
 int compare_conqui(int atleta1, int atleta2, struct Atleta vatletas[]){
     int pos1 = 0, pos2 = 0;
+    //Procura se o atleta1 solicitado está dentro do vetor
     for (int c = 0; c < 100; c++){
         if (vatletas[c].id == atleta1){
             pos1 = c;
@@ -15,6 +16,7 @@ int compare_conqui(int atleta1, int atleta2, struct Atleta vatletas[]){
         }
     }
 
+    //Procura se o atleta1 solicitado está dentro do vetor
     for (int c = 0; c < 100; c++){
         if (vatletas[c].id == atleta2){
             pos2 = c;
@@ -22,6 +24,7 @@ int compare_conqui(int atleta1, int atleta2, struct Atleta vatletas[]){
         }
     }
 
+    // Compara o número de medalha dos atletas
     if (vatletas[pos1].n_ouro > vatletas[pos2].n_ouro){
         return atleta1;
     } else if(vatletas[pos1].n_ouro < vatletas[pos2].n_ouro){
@@ -56,10 +59,10 @@ int main(void){
     int a1, a2, resultado;
     for (int c = 0; c < consultanum; c++){
         scanf("%d %d", &a1, &a2);
+        //Compara as conquistas
         resultado = compare_conqui(a1, a2, vatletas);
         (resultado == 0) ? printf("empate\n") : printf("%d\n", resultado);
     }
 
     return 0;
 }
-
