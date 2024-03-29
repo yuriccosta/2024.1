@@ -79,7 +79,7 @@ public class menu {
             if (pessoa.saquePF(valor)){
                 System.out.println("Saque de " + valor + " realizado com sucesso no nome de " + pessoa.getNome());
             } else{
-                System.out.println("Não há saldo suficiente");
+                System.out.println("Não foi possível realizar a transação");
             }
         }
         
