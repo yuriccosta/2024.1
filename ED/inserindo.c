@@ -7,13 +7,15 @@ typedef struct numlist{
 } lista;
 
 
+// Cria o elemento no inicio
 lista * inicio(lista * inicio, int valor){
-    lista * aux = (lista*) malloc(sizeof(lista));
-    aux->num = valor;
-    aux->prox = inicio;
-    return aux;
+    lista * new = (lista*) malloc(sizeof(lista));
+    new->num = valor;
+    new->prox = inicio;
+    return new;
 }
 
+// Cria o elemento e adiciona no final
 lista * final(lista * inicio, int valor){
     lista * new = (lista*) malloc(sizeof(lista)), *aux = inicio;
     new->num = valor;
@@ -62,6 +64,7 @@ int main(void) {
         for (int c = 0; c < n; c++){
             scanf(" %c %d", &choice, &val);
 
+            // Verifica a escolha do usuário
             if (choice == 'P'){
                 encad = inicio(encad, val);
             } else{
