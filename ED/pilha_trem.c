@@ -9,8 +9,8 @@ typedef struct Vagao{
 void addesq(trem* esq, char letras[], int *onde ){
     // Verifica se chegamos no final de letras
     if (letras[*onde] == '\n'){
-        printf("Erro, não há mais vagões");
-        exit(1);
+        printf("Erro, não há mais vagões\n");
+        exit(2);
     }
 
     // Verifica se o contador está na posição dos espaços
@@ -26,8 +26,8 @@ void addesq(trem* esq, char letras[], int *onde ){
 void adddir(trem* dir, trem *esq){
     // Encerra o programa caso o trem da esquerda esteja vazio
     if (esq->top == -1){
-        printf("Erro, Trem da esquerda vazio");
-        exit(2);
+        printf("Erro, Trem da esquerda vazio\n");
+        exit(3);
     }
 
     // Trem da direita no topo da pilha recebe o vagao da esquerda no topo da pilha
@@ -38,6 +38,9 @@ void adddir(trem* dir, trem *esq){
 }
 
 int main(void){
+    /* Na minha implementação não vi a necessidade de utilizar a variavel vagoes
+    pois eu leio em uma array de caracteres e depois percorro até o \n
+    */
     int vagoes;
     char letras[53];
     char operacoes[105];
@@ -60,8 +63,11 @@ int main(void){
 
         if (operacoes[c] == 'E'){
             addesq(esq, letras, ondeLetra);
-        } else{
+        } else if (operacoes[c] == 'D'){
             adddir(dir, esq);
+        } else{
+            printf("Digite entradas válidas E/D\n");
+            exit(1);
         }
     }
 
