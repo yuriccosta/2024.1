@@ -8,6 +8,7 @@ public class Main_Contador {
         for (int d = 0; d < frase.length(); d++){
             if (frase.charAt(d) == 'a'){
                 c.incrementa();
+                System.out.println(d + ": " + c.valorContador());
             }
         }
 

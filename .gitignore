@@ -1,6 +1,8 @@
 #ignorando algumas pastas
 output/
 .vscode/
+.venv/
+.idea/
 
 #ignorando as provas compactadas
 *.tar.gz
