@@ -1,25 +1,39 @@
+class Tarefa:
+    __staticvar ={"id":0}
+
+    def __init__(self):
+        self.__staticvar["id"] = self.__staticvar["id"] + 1
+        self.__id = self.__staticvar["id"]
+        self.__desc = ''
+        self.__status = '[ ]'
+
+    def getid(self):
+        return self.__id
+    
+    def getdesc(self):
+        return self.__desc
+    
+    def getstatus(self):
+        return self.__status
+    
+    def setdesc(self, desc):
+        self.__desc = desc
+
+    def setStatus(self, bool):
+        if bool:
+            self.__status = '[X]'
+        else:
+            self.__status = '[ ]'
+
 class ToDo:
 
     def __init__(self):
-        self.id = 0
         self.task = list()
-
-    def menu(self):
-        print('''
-            1 - Listar Tarefas
-            2 - Adicionar tarefa
-            3 - Marcar tarefas como concluida
-            4 - Editar tarefa
-            5 - Sair
-                ''')
-
-        return int(input("Sua escolha: "))
-        
+                
     def add(self):
-        self.id = self.id + 1
-
-        desc = input("Descrição da tarefa: ").capitalize()
-        task = {"id":self.id ,"descricao":desc, "status":"[ ]"}
+        tarefa = Tarefa()
+        tarefa.setdesc(input("Descrição da tarefa: ").capitalize())
+        task = {"id":tarefa.getid() ,"descricao":tarefa.getstatus(), "status":"[ ]"}
 
         self.task.append(task)
 
@@ -38,7 +52,9 @@ class ToDo:
                 self.task.remove(c)
                 copia["status"] = "[X]"
                 self.task.insert(0,copia)
+                # self.task.insert(0, self.task.pop(self.task.index(c))) pop retorna elemento exlcuido. index a posição
                 print("Tarefa marcada como concluída\n")
+                break
 
     def edit(self):
         id = int(input("Qual o id da tarefa: "))
@@ -47,14 +63,27 @@ class ToDo:
                 desc = input("Descrição da tarefa: ").capitalize()
                 c["descricao"] = desc
                 print("Tarefa editada\n")
+                break
 
 
+
+        
+def menu():
+    print('''
+        1 - Listar Tarefas
+        2 - Adicionar tarefa
+        3 - Marcar tarefas como concluida
+        4 - Editar tarefa
+        5 - Sair
+            ''')
+
+    return int(input("Sua escolha: "))
 
 def main():
     App = ToDo()
 
     while True:
-        op = App.menu()
+        op = menu()
 
         if op == 1:
             App.listar()
