@@ -1,3 +1,4 @@
+# Importando do código que está no slide
 from arvorebin import Arvore
 
 class No:
@@ -44,7 +45,7 @@ class huffman(Arvore):
 ##############################################################################################################
 # Etapa 1
 print("Etapa 1")
-teste1 = """e da vez que eu me perdi no caminho so consigo lembrar de tu me sorrindo sentada no portao da tua casa lembro do cd
+texto = """e da vez que eu me perdi no caminho so consigo lembrar de tu me sorrindo sentada no portao da tua casa lembro do cd
 de coco do cafe caboclo da vontade absurda de sentir teu gosto feito fumaca num quarto fechado uu tomou conta dos
 quatro cantos acende o cigarro queima a brasa eu sou o quarto tu a fumaca e os cigarros foram tantos feito fumaca num
 quarto fechado
@@ -52,17 +53,17 @@ tu tomou conta dos quatro cantos acende o cigarro, queima a brasa eu sou o quart
 e da vez que eu me perdi no caminho so consigo lembrar de tu me sorrindo sentada no portão da tua casa lembro do cd
 de coco do cafe caboclo da vontade absurda de sentir teu gosto laia laia laia laia"""
 
-freq = {}
 
 # Criando um dicionário da frequência de caracteres
-for c in teste1:
+freq = {}
+for c in texto:
     if c in freq:
         freq[c] = freq[c] + 1
     else:
         freq[c] = 1
 
 
-# Ordenado por ordem alfabetica
+# Printando dicionário por ordem alfabetica
 for d in sorted(freq.items()):
     print(f"{d[0]}: {d[1]}")
 
@@ -74,13 +75,6 @@ print(ordenado)
 for d in ordenado:
     print(f"{d[0]}: {d[1]}")
 '''
-
-#Ordenando pelos valores (cria uma lista com a posição trocada de chave e valor do dicionário)
-ordenado = []
-for d in freq.items():
-    ordenado.append([d[1], d[0]])
-ordenado.sort(reverse=True)
-#print(ordenado)
 
 ##############################################################################################################
 # Etapa 2
@@ -94,7 +88,14 @@ print(freq["total"])
 '''
 
 
-#Fazendo a pilha de Nós
+
+#Cria uma lista com a posição trocada de chave e valor do dicionário e depois ordena com o maior valor na frente
+ordenado = []
+for d in freq.items():
+    ordenado.append([d[1], d[0]])
+ordenado.sort(reverse=True)
+
+#Faz uma pilha de Nós com base na lista ordenada criado anteriormente
 stackTree = []
 for c in ordenado:
     stackTree.append(No(c[0], c[1]))
@@ -140,6 +141,7 @@ def makeHuffmanTree(stack: list[No]) -> No:
     return makeHuffmanTree(stack)
 
 
+# Salva a raiz da árvore criada
 raiz = makeHuffmanTree(stackTree)
 
 huffman.mostraArvore(raiz, 2)
@@ -158,6 +160,7 @@ def searchNo(raiz: No, char: str) -> No:
 
     return searchNo(raiz.esquerda, char) or searchNo(raiz.direita, char)
 
+# Função para retornar a string com o código de um determinado caractere a partir de seu objeto
 def binHuffman(raiz: No) -> str:  
         if not raiz or not raiz.pai:
             return ""
@@ -168,43 +171,46 @@ def binHuffman(raiz: No) -> str:
 
 
 # Dicionário com a relação de códigos e letras
-codigo = {}
+codigo_dict = {}
 
 # Mostra o código binário de cada letra e salva no dicionário para manter a relação
 print("Código binário")
-for d in sorted(freq.items()):
-    code = binHuffman(searchNo(raiz, d[0]))
-    codigo[d[0]] = code
-    print(f"{d[0]}: {code}")
+for d in sorted(freq.keys()):
+    code = binHuffman(searchNo(raiz, d))
+    codigo_dict[d] = code
+    print(f"{d}: {code}")
 
 ##############################################################################################################
 # Etapa 4
 print("\nEtapa 4")
 print("\nString original:")
-print(teste1)
+print(texto)
 
 # Cria a string codificada
-
 code_string = ""
-for c in teste1:
-    code_string = code_string + codigo[c]
+for c in texto:
+    code_string = code_string + codigo_dict[c]
 
 print("\nCodificado:")
 print(code_string)
 
 # Volta para a string original
-#Cria uma lista com a posição trocada de chave e valor do dicionário
+# Cria uma lista com a posição trocada de chave e valor do dicionário
 codigo_list = []
-for d in codigo.items():
+for d in codigo_dict.items():
     codigo_list.append([d[1], d[0]])
 
 
+# Percorre a string codificada e decodifica com base na lista com a relação de códigos
 decode_string = ""
 code = ""
 for c in code_string:
+    # Como cada código é único uma hora code será igual a um código dentro da lista
     code = code + c
     for d in codigo_list:
+        # Verifica se a string criada é igual a que está dentro da lista
         if d[0] == code:
+            # Cria a string decodificada e reseta o code
             decode_string = decode_string + d[1]
             code = ""
             break
