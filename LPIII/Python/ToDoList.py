@@ -4,7 +4,7 @@ class Tarefa:
     def __init__(self):
         self.__staticvar["id"] = self.__staticvar["id"] + 1
         self.__id = self.__staticvar["id"]
-        self.__desc = ''
+        self.__desc = ""
         self.__status = '[ ]'
 
     def getid(self):

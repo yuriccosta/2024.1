@@ -15,6 +15,7 @@ class No:
         if self.direita:
             self.direita.pai=self
 
+    # Utilizado para testar e ver o objeto, não é necessário
     def __str__(self):
         return f"||{self.carac}: {self.freq}|| esq = {self.esquerda} | dir = {self.direita}"
 
@@ -107,11 +108,6 @@ def insereStack(arvore: No, stack: list[No]):
     for aux in stack:
         if arvore.freq > aux.freq:
             break
-            '''
-        elif arvore.freq == aux.freq:
-            if arvore.carac > aux.freq:
-                stack[cont].
-            '''
         else:
             cont += 1
     stack.insert(cont, arvore)
@@ -176,6 +172,7 @@ codigo_dict = {}
 # Mostra o código binário de cada letra e salva no dicionário para manter a relação
 print("Código binário")
 for d in sorted(freq.keys()):
+    #Procura o nó da letra e gera o código de huffman
     code = binHuffman(searchNo(raiz, d))
     codigo_dict[d] = code
     print(f"{d}: {code}")
@@ -186,7 +183,7 @@ print("\nEtapa 4")
 print("\nString original:")
 print(texto)
 
-# Cria a string codificada
+# Cria a string codificada utilizando o dicionário de códigos
 code_string = ""
 for c in texto:
     code_string = code_string + codigo_dict[c]
