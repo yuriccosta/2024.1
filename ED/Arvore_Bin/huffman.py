@@ -33,7 +33,7 @@ class huffman(Arvore):
                 print("     ", end='')
             if carac == "*":
                 print(carac)
-            elif carac == "":
+            elif len(carac) > 1:
                 print(freq)
             else:
                 print(f"{carac}:{freq}")
@@ -48,7 +48,7 @@ class huffman(Arvore):
             huffman.imprimeNo(a.freq, a.carac, b)
             huffman.mostraArvore(a.esquerda, b+1)
 
-##############################################################################################################
+#=======================================================================================================================================
 # Etapa 1
 print("Etapa 1")
 texto = """e da vez que eu me perdi no caminho so consigo lembrar de tu me sorrindo sentada no portao da tua casa lembro do cd
@@ -74,7 +74,7 @@ for d in sorted(freq.items()):
     print(f"{d[0]}: {d[1]}")
 
 
-##############################################################################################################
+#=======================================================================================================================================
 # Etapa 2
 print("\nEtapa 2")
 
@@ -134,7 +134,7 @@ raiz = makeHuffmanTree(stackTree)
 
 huffman.mostraArvore(raiz, 3)
 
-##############################################################################################################
+#=======================================================================================================================================
 # Etapa 3
 print("\nEtapa 3")
     
@@ -142,7 +142,7 @@ print("\nEtapa 3")
 # Vai em todos os nós da árvore até encontrar o nó com o caracter desejado ou retornar nulo
 '''
 Comentei pois percebi que como definimos a regra de colocar o menor na esquerda
-e em caso de empate o de menor valor alfabético, podemos fazer a busca de forma mais simples
+e em caso de empate o de menor valor alfabético, podemos fazer a busca de forma mais simples.
 Que está implementada na searchNo após este comentário
 def searchNo(raiz: No, char: str) -> No:
     # Se a raiz for nula retorna nulo, significa que não encontrou
@@ -203,10 +203,12 @@ for d in sorted(freq.keys()):
     print(f"{d}: {code}")
 
 fim = time()
-##############################################################################################################
+
+
+#=======================================================================================================================================
 # Etapa 4
 print("\nEtapa 4")
-print("\nString original:")
+print("\nOriginal:")
 print(texto)
 
 # Cria a string codificada utilizando o dicionário de códigos
@@ -238,7 +240,7 @@ for c in code_string:
             code = ""
             break
 
-print("\nDe volta para o orginal:")
+print("\nDecodificado:")
 print(decode_string)
 print("\nO texto inicial é igual ao texto decodificado:", texto == decode_string)
 
