@@ -3,9 +3,6 @@
 # Importando do código que está no slide
 from arvorebin import Arvore
 
-# Importando a função de tempo só para poder compara a diferença das duas funções de busca
-from time import perf_counter as time
-
 class No:
     def __init__(self, freq, carac, esquerda=None, direita=None):
         self.freq = freq
@@ -19,11 +16,6 @@ class No:
             self.esquerda.pai=self
         if self.direita:
             self.direita.pai=self
-
-    # Utilizado para testar e ver o objeto, não é necessário
-    def __str__(self):
-        return f"||{self.carac}: {self.freq}|| esq = {self.esquerda} | dir = {self.direita}"
-
 
 
 # Para alterar o metodo de printar a arvore para o tipo de no que temos
@@ -48,6 +40,7 @@ class huffman(Arvore):
             huffman.imprimeNo(a.freq, a.carac, b)
             huffman.mostraArvore(a.esquerda, b+1)
 
+
 ##############################################################################################################
 # Etapa 1
 print("Etapa 1")
@@ -68,11 +61,9 @@ for c in texto:
     else:
         freq[c] = 1
 
-
 # Printando dicionário por ordem alfabetica
 for d in sorted(freq.items()):
     print(f"{d[0]}: {d[1]}")
-
 
 ##############################################################################################################
 # Etapa 2
@@ -100,6 +91,7 @@ def insereStack(arvore: No, stack: list[No]):
             cont += 1
     stack.insert(cont, arvore)
 
+
 # Função para fazer a árvore de Huffman e retornar a árvore
 def makeHuffmanTree(stack: list[No]) -> No:
     if len(stack) == 1:
@@ -118,11 +110,7 @@ def makeHuffmanTree(stack: list[No]) -> No:
             sunEsq, sunDir = sunDir, sunEsq
     
     # Fazendo nova árvore com os filhos removidos da pilha
-    new = No(sunEsq.freq + sunDir.freq, sunEsq.carac + sunDir.carac, sunEsq, sunDir)
-    '''
-    Caso queiramos utilizar a função searchNo comentada abaixo, não precisamos que cada no tenha um caracter
     new = No(sunEsq.freq + sunDir.freq, "", sunEsq, sunDir)
-    '''
 
     #Inserindo na pilha a nova arvore criada
     insereStack(new, stack)
@@ -140,10 +128,6 @@ print("\nEtapa 3")
     
 # Função para buscar caracter na árvore
 # Vai em todos os nós da árvore até encontrar o nó com o caracter desejado ou retornar nulo
-'''
-Comentei pois percebi que como definimos a regra de colocar o menor na esquerda
-e em caso de empate o de menor valor alfabético, podemos fazer a busca de forma mais simples
-Que está implementada na searchNo após este comentário
 def searchNo(raiz: No, char: str) -> No:
     # Se a raiz for nula retorna nulo, significa que não encontrou
     if not raiz:
@@ -154,26 +138,6 @@ def searchNo(raiz: No, char: str) -> No:
     # Se não for o nó procurado, procura nos filhos da esquerda e direita
     # O objeto or None é o próprio objeto
     return searchNo(raiz.esquerda, char) or searchNo(raiz.direita, char)
-'''
-
-# Função para buscar caracter na árvore
-# Essa função é mais eficiente pois não procura em todos os nós, apenas nos nós que podem ter o caracter
-# Para isso precisamos definir que cada nó tem um caracter que é a junção dos caracteres dos filhos
-
-
-def searchNo(raiz: No, char: str) -> No:
-    # Se a raiz for nula retorna nulo, significa que não encontrou
-    if not raiz:
-        return None
-    # Se a raiz for o nó procurado retorna a raiz
-    elif raiz.carac == char:
-        return raiz
-    # Se a raiz.esquerda existe e o caracter está na esquerda procura na esquerda
-    elif raiz.esquerda and char in raiz.esquerda.carac:
-        return searchNo(raiz.esquerda, char)
-    else:
-        return searchNo(raiz.direita, char)
-
 
 
 # Função para retornar a string com o código de um determinado caractere a partir de seu objeto
@@ -194,15 +158,12 @@ codigo_dict = {}
 # Mostra o código binário de cada letra e salva no dicionário para manter a relação 
 print("Código binário")
 
-inicio = time()
-
 for d in sorted(freq.keys()):
     #Procura o nó da letra e gera o código de huffman
     code = binHuffman(searchNo(raiz, d))
     codigo_dict[d] = code
     print(f"{d}: {code}")
 
-fim = time()
 ##############################################################################################################
 # Etapa 4
 print("\nEtapa 4")
@@ -241,5 +202,3 @@ for c in code_string:
 print("\nDe volta para o orginal:")
 print(decode_string)
 print("\nO texto inicial é igual ao texto decodificado:", texto == decode_string)
-
-print(f"Tempo: {fim - inicio}")
