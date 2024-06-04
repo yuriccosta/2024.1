@@ -20,9 +20,11 @@ class No:
         if self.direita:
             self.direita.pai=self
 
+
     # Utilizado para testar e ver o objeto, não é necessário
     def __str__(self):
         return f"||{self.carac}: {self.freq}|| esq = {self.esquerda} | dir = {self.direita}"
+
 
 
 
@@ -118,10 +120,11 @@ def makeHuffmanTree(stack: list[No]) -> No:
             sunEsq, sunDir = sunDir, sunEsq
     
     # Fazendo nova árvore com os filhos removidos da pilha
-    new = No(sunEsq.freq + sunDir.freq, sunEsq.carac + sunDir.carac, sunEsq, sunDir)
-    '''
-    Caso queiramos utilizar a função searchNo comentada abaixo, não precisamos que cada no tenha um caracter
+    #Caso queiramos utilizar a função searchNoSlow ou a geracodigo, não precisamos que cada no tenha um caracter
     new = No(sunEsq.freq + sunDir.freq, "", sunEsq, sunDir)
+    '''
+    # Caso queiramos utilizar a função searchNoFast, precisamos que cada nó tenha um caracter
+    new = No(sunEsq.freq + sunDir.freq, sunEsq.carac + sunDir.carac, sunEsq, sunDir)
     '''
 
     #Inserindo na pilha a nova arvore criada
@@ -144,7 +147,7 @@ print("\nEtapa 3")
 Comentei pois percebi que como definimos a regra de colocar o menor na esquerda
 e em caso de empate o de menor valor alfabético, podemos fazer a busca de forma mais simples.
 Que está implementada na searchNo após este comentário
-def searchNo(raiz: No, char: str) -> No:
+def searchNoSlow(raiz: No, char: str) -> No:
     # Se a raiz for nula retorna nulo, significa que não encontrou
     if not raiz:
         return None
@@ -154,14 +157,16 @@ def searchNo(raiz: No, char: str) -> No:
     # Se não for o nó procurado, procura nos filhos da esquerda e direita
     # O objeto or None é o próprio objeto
     return searchNo(raiz.esquerda, char) or searchNo(raiz.direita, char)
-'''
+
+    
+As funções abaixo também foram comentadas pois existe uma maneira ainda mais eficiente de fazer a geração de códigos
 
 # Função para buscar caracter na árvore
 # Essa função é mais eficiente pois não procura em todos os nós, apenas nos nós que podem ter o caracter
 # Para isso precisamos definir que cada nó tem um caracter que é a junção dos caracteres dos filhos
 
 
-def searchNo(raiz: No, char: str) -> No:
+def searchNoFast(raiz: No, char: str) -> No:
     # Se a raiz for nula retorna nulo, significa que não encontrou
     if not raiz:
         return None
@@ -175,7 +180,6 @@ def searchNo(raiz: No, char: str) -> No:
         return searchNo(raiz.direita, char)
 
 
-
 # Função para retornar a string com o código de um determinado caractere a partir de seu objeto
 def binHuffman(raiz: No) -> str:  
         if not raiz or not raiz.pai:
@@ -186,23 +190,51 @@ def binHuffman(raiz: No) -> str:
         # Se o nó é filho da esquerda adicionamos 0 no final do retorno e o retorno da função no inicio
         else:
             return binHuffman(raiz.pai) + "0"
+'''
 
 
-# Dicionário com a relação de códigos e letras
-codigo_dict = {}
+# Função para gerar o código de huffman de todos os caracteres de forma direta (Mais eficiente)
+# Quando utilizamos essa função não é necessário ter um caracter em cada nó
+def geracodigos(raiz: No, binario: str, codigo: dict) -> None:
+    # Se o nó é folha, adiciona o código gerado pelas chamadas no dicionário
+    if raiz.esquerda is None and raiz.direita is None:
+        codigo[raiz.carac] = binario
+    # Se não for folha, chama a função para os filhos, passando o código gerado até o momento
+    # Ele soma 0 se for para a esquerda e 1 se for para a direita
+    else:
+        geracodigos(raiz.esquerda, binario + "0", codigo)
+        geracodigos(raiz.direita, binario + "1", codigo)
+
+
+
 
 # Mostra o código binário de cada letra e salva no dicionário para manter a relação 
 print("Código binário")
 
+# Dicionário da função mais eficiente com a relação de códigos e letras
+codigo_dictFast = {}
+
+# Utiliza a função geracodigo implementada acima, é mais eficiente
+geracodigos(raiz, "", codigo_dictFast)
+for c in sorted(codigo_dictFast.keys()):
+    print(c, ": ", codigo_dictFast[c])
+
+
+'''
+# Dicionário com a relação de códigos e letras
+codigo_dict = {}
+
+# Utiliza a função searchNo comentada acima, é menos eficiente
 inicio = time()
 
 for d in sorted(freq.keys()):
     #Procura o nó da letra e gera o código de huffman
-    code = binHuffman(searchNo(raiz, d))
+    code = binHuffman(searchNoFast(raiz, d))
     codigo_dict[d] = code
     print(f"{d}: {code}")
 
 fim = time()
+'''
 
 
 #=======================================================================================================================================
@@ -214,7 +246,7 @@ print(texto)
 # Cria a string codificada utilizando o dicionário de códigos
 code_string = ""
 for c in texto:
-    code_string = code_string + codigo_dict[c]
+    code_string = code_string + codigo_dictFast[c]
 
 print("\nCodificado:")
 print(code_string)
@@ -222,7 +254,7 @@ print(code_string)
 # Volta para a string original
 # Cria uma lista com a posição trocada de chave e valor do dicionário
 codigo_list = []
-for d in codigo_dict.items():
+for d in codigo_dictFast.items():
     codigo_list.append([d[1], d[0]])
 
 
@@ -244,4 +276,4 @@ print("\nDecodificado:")
 print(decode_string)
 print("\nO texto inicial é igual ao texto decodificado:", texto == decode_string)
 
-print(f"Tempo: {fim - inicio}")
+#print(f"Tempo: {fim - inicio}")

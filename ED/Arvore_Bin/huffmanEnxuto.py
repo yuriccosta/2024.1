@@ -126,43 +126,30 @@ huffman.mostraArvore(raiz, 3)
 # Etapa 3
 print("\nEtapa 3")
     
-# Função para buscar caracter na árvore
-# Vai em todos os nós da árvore até encontrar o nó com o caracter desejado ou retornar nulo
-def searchNo(raiz: No, char: str) -> No:
-    # Se a raiz for nula retorna nulo, significa que não encontrou
-    if not raiz:
-        return None
-    elif raiz.carac == char:
-        return raiz
-    
-    # Se não for o nó procurado, procura nos filhos da esquerda e direita
-    # O objeto or None é o próprio objeto
-    return searchNo(raiz.esquerda, char) or searchNo(raiz.direita, char)
+# Função para gerar o código de huffman de todos os caracteres de forma direta (Mais eficiente)
+# Quando utilizamos essa função não é necessário ter um caracter em cada nó
+def geracodigos(raiz: No, binario: str, codigo: dict) -> None:
+    # Se o nó é folha, adiciona o código gerado pelas chamadas no dicionário
+    if raiz.esquerda is None and raiz.direita is None:
+        codigo[raiz.carac] = binario
+    # Se não for folha, chama a função para os filhos, passando o código gerado até o momento
+    # Ele soma 0 se for para a esquerda e 1 se for para a direita
+    else:
+        geracodigos(raiz.esquerda, binario + "0", codigo)
+        geracodigos(raiz.direita, binario + "1", codigo)
 
 
-# Função para retornar a string com o código de um determinado caractere a partir de seu objeto
-def binHuffman(raiz: No) -> str:  
-        if not raiz or not raiz.pai:
-            return ""
-        # Se o nó é filho da direita adicionamos 1 no final do retorno e o retorno da função no iníco 
-        elif raiz == raiz.pai.direita:
-            return binHuffman(raiz.pai) + "1"
-        # Se o nó é filho da esquerda adicionamos 0 no final do retorno e o retorno da função no inicio
-        else:
-            return binHuffman(raiz.pai) + "0"
-
-
-# Dicionário com a relação de códigos e letras
-codigo_dict = {}
 
 # Mostra o código binário de cada letra e salva no dicionário para manter a relação 
 print("Código binário")
 
-for d in sorted(freq.keys()):
-    #Procura o nó da letra e gera o código de huffman
-    code = binHuffman(searchNo(raiz, d))
-    codigo_dict[d] = code
-    print(f"{d}: {code}")
+# Dicionário da função mais eficiente com a relação de códigos e letras
+codigo_dictFast = {}
+
+# Utiliza a função geracodigo implementada acima, é mais eficiente
+geracodigos(raiz, "", codigo_dictFast)
+for c in sorted(codigo_dictFast.keys()):
+    print(c, ": ", codigo_dictFast[c])
 
 ##############################################################################################################
 # Etapa 4
@@ -173,7 +160,7 @@ print(texto)
 # Cria a string codificada utilizando o dicionário de códigos
 code_string = ""
 for c in texto:
-    code_string = code_string + codigo_dict[c]
+    code_string = code_string + codigo_dictFast[c]
 
 print("\nCodificado:")
 print(code_string)
@@ -181,7 +168,7 @@ print(code_string)
 # Volta para a string original
 # Cria uma lista com a posição trocada de chave e valor do dicionário
 codigo_list = []
-for d in codigo_dict.items():
+for d in codigo_dictFast.items():
     codigo_list.append([d[1], d[0]])
 
 
