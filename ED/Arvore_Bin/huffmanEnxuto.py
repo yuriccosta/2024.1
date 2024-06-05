@@ -107,19 +107,19 @@ def makeHuffmanTree(stack: list[No]) -> No:
         return stack.pop()
 
     # Removendo da pilha e guardando
-    sunEsq = stack.pop()
-    sunDir = stack.pop()
+    sonEsq = stack.pop()
+    sonDir = stack.pop()
 
     # Colocando o de menor frequência na esquerda
-    if sunEsq.freq > sunDir.freq:
-        sunEsq, sunDir = sunDir, sunEsq
+    if sonEsq.freq > sonDir.freq:
+        sonEsq, sonDir = sonDir, sonEsq
     # Caso sejam iguais coloca em ordem alfabetica da esquerda para direita
-    elif sunEsq.freq == sunDir.freq:
-        if sunEsq.carac > sunDir.carac:
-            sunEsq, sunDir = sunDir, sunEsq
+    elif sonEsq.freq == sonDir.freq:
+        if sonEsq.carac > sonDir.carac:
+            sonEsq, sonDir = sonDir, sonEsq
     
     # Fazendo nova árvore com os filhos removidos da pilha
-    new = No(sunEsq.freq + sunDir.freq, "", sunEsq, sunDir)
+    new = No(sonEsq.freq + sonDir.freq, "", sonEsq, sonDir)
 
     #Inserindo na pilha a nova arvore criada
     insereStack(new, stack)

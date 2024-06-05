@@ -117,20 +117,20 @@ def makeHuffmanTree(stack: list[No]) -> No:
         return stack.pop()
 
     # Removendo da pilha e guardando
-    sunEsq = stack.pop()
-    sunDir = stack.pop()
+    sonEsq = stack.pop()
+    sonDir = stack.pop()
 
     # Colocando o de menor frequência na esquerda
-    if sunEsq.freq > sunDir.freq:
-        sunEsq, sunDir = sunDir, sunEsq
+    if sonEsq.freq > sonDir.freq:
+        sonEsq, sonDir = sonDir, sonEsq
     # Caso sejam iguais coloca em ordem alfabetica da esquerda para direita
-    elif sunEsq.freq == sunDir.freq:
-        if sunEsq.carac > sunDir.carac:
-            sunEsq, sunDir = sunDir, sunEsq
+    elif sonEsq.freq == sonDir.freq:
+        if sonEsq.carac > sonDir.carac:
+            sonEsq, sonDir = sonDir, sonEsq
     
     # Fazendo nova árvore com os filhos removidos da pilha
     #Caso queiramos utilizar a função searchNoSlow ou a geracodigo, não precisamos que cada no tenha um caracter
-    new = No(sunEsq.freq + sunDir.freq, "", sunEsq, sunDir)
+    new = No(sonEsq.freq + sonDir.freq, "", sonEsq, sonDir)
     '''
     # Caso queiramos utilizar a função searchNoFast, precisamos que cada nó tenha um caracter
     new = No(sunEsq.freq + sunDir.freq, sunEsq.carac + sunDir.carac, sunEsq, sunDir)
