@@ -105,11 +105,16 @@ for c in ordenado:
 def insereStack(arvore: No, stack: list[No]):
     cont = 0
     for aux in stack:
+        # Se a frequência do nó for maior que o auxiliar, insere na posição
         if arvore.freq > aux.freq:
             break
+        # Se a frequência for menor ou igual, incrementa o contador
         else:
             cont += 1
+
+    #Quando sai do loop teremos o contador com a posição correta para inserir
     stack.insert(cont, arvore)
+
 
 # Função para fazer a árvore de Huffman e retornar a árvore
 def makeHuffmanTree(stack: list[No]) -> No:
