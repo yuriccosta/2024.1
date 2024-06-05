@@ -28,7 +28,10 @@ class huffman(Arvore):
             elif carac == "":
                 print(freq)
             else:
-                print(f"{carac}:{freq}")
+                if carac == "\n":
+                    print(f"{freq}:\\n")
+                else:
+                    print(f"{freq}:{carac}")
 
 
         def mostraArvore(a: No, b: int):
@@ -40,6 +43,11 @@ class huffman(Arvore):
             huffman.imprimeNo(a.freq, a.carac, b)
             huffman.mostraArvore(a.esquerda, b+1)
 
+        def in_ordem(raiz: No):
+            if raiz is not None:
+                huffman.in_ordem(raiz.esquerda)
+                print(raiz.freq, end=' ')
+                huffman.in_ordem(raiz.direita)
 
 ##############################################################################################################
 # Etapa 1
@@ -74,6 +82,7 @@ ordenado = []
 for d in freq.items():
     ordenado.append([d[1], d[0]])
 ordenado.sort(reverse=True)
+
 
 #Faz uma pilha de Nós com base na lista ordenada criado anteriormente
 stackTree = []
@@ -120,7 +129,10 @@ def makeHuffmanTree(stack: list[No]) -> No:
 # Salva a raiz da árvore criada
 raiz = makeHuffmanTree(stackTree)
 
-huffman.mostraArvore(raiz, 3)
+print("Árvore:")
+huffman.mostraArvore(raiz, 1)
+print("In-ordem: ")
+huffman.in_ordem(raiz)
 
 ##############################################################################################################
 # Etapa 3
@@ -137,7 +149,6 @@ def geracodigos(raiz: No, binario: str, codigo: dict) -> None:
     else:
         geracodigos(raiz.esquerda, binario + "0", codigo)
         geracodigos(raiz.direita, binario + "1", codigo)
-
 
 
 # Mostra o código binário de cada letra e salva no dicionário para manter a relação 

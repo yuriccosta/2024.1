@@ -35,10 +35,13 @@ class huffman(Arvore):
                 print("     ", end='')
             if carac == "*":
                 print(carac)
-            elif len(carac) > 1:
+            elif carac == "":
                 print(freq)
             else:
-                print(f"{carac}:{freq}")
+                if carac == "\n":
+                    print(f"{freq}:\\n")
+                else:
+                    print(f"{freq}:{carac}")
 
 
         def mostraArvore(a: No, b: int):
@@ -49,6 +52,12 @@ class huffman(Arvore):
             huffman.mostraArvore(a.direita, b+1)
             huffman.imprimeNo(a.freq, a.carac, b)
             huffman.mostraArvore(a.esquerda, b+1)
+        
+        def in_ordem(raiz: No):
+            if raiz is not None:
+                huffman.in_ordem(raiz.esquerda)
+                print(raiz.freq, end=' ')
+                huffman.in_ordem(raiz.direita)
 
 #=======================================================================================================================================
 # Etapa 1
@@ -135,11 +144,14 @@ def makeHuffmanTree(stack: list[No]) -> No:
 # Salva a raiz da árvore criada
 raiz = makeHuffmanTree(stackTree)
 
+print("Árvore:")
 huffman.mostraArvore(raiz, 3)
+print("In-ordem: ")
+huffman.in_ordem(raiz)
 
 #=======================================================================================================================================
 # Etapa 3
-print("\nEtapa 3")
+print("\n\nEtapa 3")
     
 # Função para buscar caracter na árvore
 # Vai em todos os nós da árvore até encontrar o nó com o caracter desejado ou retornar nulo
