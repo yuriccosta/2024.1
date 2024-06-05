@@ -1,4 +1,5 @@
 # Programa que implementa o código de Huffman
+# Autores: Ana Luiza Oliveira e Yuri Coutinho Costa
 
 # Importando do código que está no slide
 from arvorebin import Arvore
@@ -90,7 +91,7 @@ for c in ordenado:
     stackTree.append(No(c[0], c[1]))
     #print(stackTree[-1])
     
-# Função de inserir item na pilha na ordem reversa
+# Função de inserir item na pilha com a frequência organizada de forma decrescente
 def insereStack(arvore: No, stack: list[No]):
     cont = 0
     for aux in stack:
@@ -110,7 +111,7 @@ def makeHuffmanTree(stack: list[No]) -> No:
     if len(stack) == 1:
         return stack.pop()
 
-    # Removendo da pilha e guardando
+    # Removendo os de menores frequência da pilha e guardando
     sonEsq = stack.pop()
     sonDir = stack.pop()
 
@@ -125,7 +126,7 @@ def makeHuffmanTree(stack: list[No]) -> No:
     # Fazendo nova árvore com os filhos removidos da pilha
     new = No(sonEsq.freq + sonDir.freq, "", sonEsq, sonDir)
 
-    #Inserindo na pilha a nova arvore criada
+    #Inserindo na pilha, de forma ordenada a nova arvore criada
     insereStack(new, stack)
     return makeHuffmanTree(stack)
 
