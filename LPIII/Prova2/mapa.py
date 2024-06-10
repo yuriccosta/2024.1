@@ -20,3 +20,21 @@ romeniaMap = {
     'Iasi': {'Vaslui': 92, 'Neamt': 87},
     'Neamt': {'Iasi': 87}
 }
+
+def busca_em_profundidade(mapa, origem, destino, distancia, caminho=[], distancia_percorrida=0):
+    caminho = caminho + [origem]
+    if origem == destino and distancia_percorrida == distancia:
+        return caminho
+
+    for cidade, dist in mapa[origem].items():
+        if cidade not in caminho and distancia_percorrida + dist <= distancia:
+            novo_caminho = busca_em_profundidade(mapa, cidade, destino, distancia, caminho, distancia_percorrida + dist)
+            if novo_caminho:
+                return novo_caminho
+
+    return None
+
+caminho = busca_em_profundidade(romeniaMap, 'Arad', 'Bucareste', 450)
+print(caminho)
+caminho = busca_em_profundidade(romeniaMap, 'Sibiu', 'Bucareste', 450 - 140) 
+print(caminho)

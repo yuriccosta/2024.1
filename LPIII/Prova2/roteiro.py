@@ -34,17 +34,17 @@ class Roteiro:
 
     
     def searchParada(self, origem, destino):
-        if self.__paradas == []:
+        if origem == self.__origem:
             return True
+        if destino == self.__destino:
+            return True
+                
         for parada in self.__paradas:
             if origem == parada.getOrigem() or origem == parada.getDestino():
                 return True
             elif destino == parada.getDestino() or destino == parada.getOrigem():
                 return True
             
-        if destino == self.__destino:
-            return True
-        
         return False
         
     '''
@@ -58,24 +58,32 @@ class Roteiro:
             
         
     def addParada(self, origem=None, destino=None, distancia=0, paradas=None):
-        #tam = len(self.__paradas)
-
+        #tam = len(self.__paradas)            
         if paradas is None:
             paradas = []
 
         if paradas == []:
-            if not self.searchParada(origem, destino):
-                return False
             
             if origem is None:
+                origem = self.__origem
+
+                if not self.searchParada(origem, destino):
+                    return False
+                
                 parada = Roteiro(self.__origem, destino, distancia)
                 self.__paradas.insert(0, parada)
             elif destino is None:
+                destino = self.__destino
+
+                if not self.searchParada(origem, destino):
+                    return False
+                
                 parada = Roteiro(origem, self.__destino, distancia)
                 self.__paradas.append(parada)
             else:
                 parada = Roteiro(origem, destino, distancia)
                 self.__paradas.append(parada)
+                
         elif distancia == 0:
             paradastotais = []
             for parada in paradas:
