@@ -3,6 +3,7 @@ output/
 .vscode/
 .venv/
 .idea/
+__pycache__/
 
 #ignorando as provas compactadas
 *.tar.gz
