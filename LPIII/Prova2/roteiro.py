@@ -73,14 +73,11 @@ class Roteiro:
                 parada = Roteiro(self.__origem, destino, distancia)
                 self.__paradas.insert(0, parada)
             elif destino is None:
-                destino = self.__destino
-
+                return False
+            else:
                 if not self.searchParada(origem, destino):
                     return False
                 
-                parada = Roteiro(origem, self.__destino, distancia)
-                self.__paradas.append(parada)
-            else:
                 parada = Roteiro(origem, destino, distancia)
                 self.__paradas.append(parada)
                 
@@ -91,7 +88,9 @@ class Roteiro:
                     return False
                 paradastotais.extend(parada.getParadas())
             self.__paradas.extend(paradastotais)
+        
         return True
+
 
     def __str__(self):
         if self.__paradas == []:
@@ -113,9 +112,9 @@ def main():
     print("Roteiro 1:")
     print(rot_01)
 
-    rot_02 = Roteiro("Sibiu", "Pitesi", (80 + 97))
+    rot_02 = Roteiro("Sibiu", "Pitesti", (80 + 97))
     rot_02.addParada(destino="Rimnicu Vilcea", distancia=80)
-    rot_02.addParada(origem="Rimnicu Vilcea", destino="Pitesi", distancia=97)
+    rot_02.addParada(origem="Rimnicu Vilcea", destino="Pitesti", distancia=97)
     print("\nRoteiro 2:")
     print(rot_02)
 

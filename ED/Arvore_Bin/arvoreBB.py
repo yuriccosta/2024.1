@@ -1,4 +1,4 @@
-# Arvore de busca binária
+# Arvore binária de busca
 
 class No:
     def __init__(self, nome, cpf, esquerda=None, direita=None):
@@ -8,6 +8,7 @@ class No:
         self.cpf: int = cpf
         self.nivel = 1
         
+
 
 # Função para buscar na árvore binária a partir do cpf
 def searchBB(raiz, cpf):
@@ -22,7 +23,7 @@ def searchBB(raiz, cpf):
         return searchBB(raiz.esquerda, cpf)
     
 
-# Função para inserir na árvore binária com base no cpf
+# Função para inserir na árvore binária com base no cpf e já atualizar o nível
 def insertBB(raiz, nome, cpf):
     if raiz is None:
         return No(nome, cpf)
@@ -61,6 +62,7 @@ def main():
             print(f"{busca.nome} {busca.nivel}")
 
         N -= 1
+
 
 if __name__ == '__main__':
     main()
